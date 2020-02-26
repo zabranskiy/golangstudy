@@ -7,9 +7,7 @@ import (
 func shift(s []int, n int) {
 	c := len(s)
 	reverse(s, n)
-	fmt.Println(s)
 	reverse(s[n:], c - n)
-	fmt.Println(s)
 	reverse(s, c)
 }
 func reverse(s []int, d int) {
@@ -22,7 +20,7 @@ func main() {
 	myArray := [4]int{1, 2, 3, 4}
 	var s []int = myArray[:]
 	fmt.Println(s)
-	shift(s, 2)
+	shift(s, 1)
 	fmt.Println(s)
 	myArray[2] = 5
 	fmt.Println(s)
