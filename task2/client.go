@@ -25,10 +25,11 @@ func main() {
 	w := bufio.NewWriter(c)
 
 	for snr.Scan() {
-		msg := snr.Text() + "\n"
+		msg := snr.Text()
 		if len(msg) == 0 {
 			break
 		}
+		msg += "\n"
 
 		_, err = w.WriteString(msg)
 		if err == nil {
