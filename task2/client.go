@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	"io"
 	"net"
 	"os"
-	"time"
 )
 
 func main() {
@@ -20,34 +18,6 @@ func main() {
 		panic(err)
 	}
 
-	snr := bufio.NewScanner(os.Stdin)
-	r := bufio.NewReader(c)
-	w := bufio.NewWriter(c)
-
-	for snr.Scan() {
-		msg := snr.Text()
-		if len(msg) == 0 {
-			break
-		}
-		msg += "\n"
-
-		_, err = w.WriteString(msg)
-		if err == nil {
-			err = w.Flush()
-		}
-
-		start := time.Now()
-		for {
-			reply := make([]byte, 1024)
-			_, err := r.Read(reply)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Print(string(reply))
-			elapsed := time.Since(start)
-			if elapsed > 2 * time.Second { // лучше не придумал, сервер должен что-то в конце ответа проставлять
-				break
-			}
-		}
-	}
+	go io.Copy(c, os.Stdin)
+	io.Copy(os.Stdout, c)
 }
